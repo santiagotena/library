@@ -1,0 +1,34 @@
+:root {
+    font-size: 16px;
+    font-family: 'system-ui', sans-serif;
+    --text-primary: black;
+    --text-secondary: white;
+    --bg--header: rgb(198, 65, 65);
+    --bg--catalogue: rgb(250, 235, 230);
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+/*Header*/
+.header {
+    background: var(--bg--header);
+    color: var(--text-secondary);
+    height: 10%;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.catalogue {
+    background: var(--bg--catalogue);
+    height: 90%;
+    width: 100vw;
+}
