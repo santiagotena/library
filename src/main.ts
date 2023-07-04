@@ -1,4 +1,5 @@
-let myLibrary:Object[] = [];
+// Global scope //
+let myLibrary : Object[] = [];
 
 let currentLibraryIndex: number = 0;
 
@@ -30,6 +31,11 @@ class Book {
     }
 }
 
+// Selectors
+const books: Element = document.querySelector(".books");
+
+
+// Library Modification
 function addBookToLibrary(): void {
     myLibrary[currentLibraryIndex] = new Book(  bookInput.title,
                                                 bookInput.author,
@@ -44,15 +50,50 @@ function displayLibrary():void {
     }
 }
 
+// DOM Modification
+function createBookElement(elementName: string, content: string, className: string): HTMLElement {
+    const element : HTMLElement = document.createElement(elementName);
+    element.textContent = content;
+    element.setAttribute("class", className);
+    return element;
+}
+
+function createBookItem(book: Object, index: number): void {
+    const bookItem : HTMLElement = document.createElement('div');
+    bookItem.setAttribute('id', index.toString());
+    bookItem.setAttribute('key', index.toString());
+    bookItem.setAttribute('class', 'card book');
+
+    bookItem.appendChild(
+        createBookElement('h1', `Title: ${bookInput.title}`, 'book-title')
+    );
+    bookItem.appendChild(
+        createBookElement('h1', `Author: ${bookInput.author}`, 'book-author')
+    );
+    bookItem.appendChild(
+        createBookElement('h1', `Pages: ${bookInput.pages}`, 'book-pages')
+    );
+    books.insertAdjacentElement('afterbegin', bookItem);
+}
+
+function renderBooks(): void {
+    myLibrary.map((book : Object, index : number ): void => {
+        createBookItem(book, index);
+    })
+}
+
+// Event listeners
+
 // Starting conditions
-bookInput.title = "Harry Potter";
-bookInput.author = "J.K. Rowling";
-bookInput.pages = 300;
+bookInput.title = "Harry Potter and the Philosopher's Stone";
+bookInput.author = "J. K. Rowling";
+bookInput.pages = 223;
 bookInput.isRead = true;
 addBookToLibrary();
 bookInput.title = "The Hobbit";
-bookInput.author = "J.R.R. Tolkien";
-bookInput.pages = 295;
+bookInput.author = "J. R. R. Tolkien";
+bookInput.pages = 310;
 bookInput.isRead = false;
 addBookToLibrary();
 displayLibrary();
+renderBooks();
