@@ -44,6 +44,7 @@ function displayLibrary():void {
     }
 }
 
+// Starting conditions
 bookInput.title = "Harry Potter";
 bookInput.author = "J.K. Rowling";
 bookInput.pages = 300;
@@ -55,5 +56,3 @@ bookInput.pages = 295;
 bookInput.isRead = false;
 addBookToLibrary();
 displayLibrary();
-
-console.log(myLibrary.length);

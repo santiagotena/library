@@ -20,18 +20,6 @@ class Book {
         this._isRead = isRead;
     }
 }
-// function Book(title: string, author: string, pages: number, isRead: boolean): void {
-//     this.title = title;
-//     this.author = author;
-//     this.pages = pages;
-//     this.isRead = isRead;
-//     this.info = function (): string {
-//         let readStatement: string = "not read yet";
-//         if (isRead)
-//             readStatement = "already read";
-//         return (`${title} by ${author}, ${pages}, ${readStatement}`)
-//     }
-// }
 function addBookToLibrary() {
     myLibrary[currentLibraryIndex] = new Book(bookInput.title, bookInput.author, bookInput.pages, bookInput.isRead);
     currentLibraryIndex++;
@@ -41,6 +29,7 @@ function displayLibrary() {
         console.log(myLibrary[i]);
     }
 }
+// Starting conditions
 bookInput.title = "Harry Potter";
 bookInput.author = "J.K. Rowling";
 bookInput.pages = 300;
@@ -52,4 +41,3 @@ bookInput.pages = 295;
 bookInput.isRead = false;
 addBookToLibrary();
 displayLibrary();
-console.log(myLibrary.length);
