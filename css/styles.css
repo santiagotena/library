@@ -15,7 +15,7 @@ body {
     align-content: center;
 }
 
-/*Header*/
+/*Header styling*/
 .header {
     background: var(--bg--header);
     color: var(--text-secondary);
@@ -27,8 +27,34 @@ body {
     font-size: 2rem;
 }
 
+/*Catalogue styling*/
 .catalogue {
+    padding: 2rem;
     background: var(--bg--catalogue);
     height: 90%;
     width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-auto-rows: 250px;
+    gap: 2rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--bg--catalogue);
+    border-left: 10px solid darkred;
+    border-radius: 0.6rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    max-width: 30vw;
+    padding: 2rem;
+}
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+}
+.card-text {
+    overflow: hidden;
 }
