@@ -2,31 +2,39 @@ let myLibrary:Object[] = [];
 
 let currentLibraryIndex: number = 0;
 
-const userInput: {title: string, author: string, pages: number, isRead: boolean} = {
+const bookInput: {title: string, author: string, pages: number, isRead: boolean} = {
     title: undefined,
     author: undefined,
     pages: undefined,
     isRead: undefined,
 };
 
-function Book(title: string, author: string, pages: number, isRead: boolean): void {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.isRead = isRead;
-    this.info = function (): string {
+class Book {
+    private _title: string;
+    private _author: string;
+    private _pages: number;
+    private _isRead: boolean;
+
+    constructor(title: string, author: string, pages: number, isRead: boolean) {
+        this._title = title;
+        this._author = author;
+        this._pages = pages;
+        this._isRead = isRead;
+    }
+
+    info = (): string => {
         let readStatement: string = "not read yet";
-        if (isRead)
+        if (this._isRead)
             readStatement = "already read";
-        return (`${title} by ${author}, ${pages}, ${readStatement}`)
+        return (`${this._title} by ${this._author}, ${this._pages}, ${readStatement}`)
     }
 }
 
-function addBookToLibrary():void {
-    myLibrary[currentLibraryIndex] = new Book(  userInput.title,
-                                                userInput.author,
-                                                userInput.pages,
-                                                userInput.isRead);
+function addBookToLibrary(): void {
+    myLibrary[currentLibraryIndex] = new Book(  bookInput.title,
+                                                bookInput.author,
+                                                bookInput.pages,
+                                                bookInput.isRead);
     currentLibraryIndex++;
 }
 
@@ -36,15 +44,15 @@ function displayLibrary():void {
     }
 }
 
-userInput.title = "Harry Potter";
-userInput.author = "J.K. Rowling";
-userInput.pages = 300;
-userInput.isRead = true;
+bookInput.title = "Harry Potter";
+bookInput.author = "J.K. Rowling";
+bookInput.pages = 300;
+bookInput.isRead = true;
 addBookToLibrary();
-userInput.title = "The Hobbit";
-userInput.author = "J.R.R. Tolkien";
-userInput.pages = 295;
-userInput.isRead = false;
+bookInput.title = "The Hobbit";
+bookInput.author = "J.R.R. Tolkien";
+bookInput.pages = 295;
+bookInput.isRead = false;
 addBookToLibrary();
 displayLibrary();
 
