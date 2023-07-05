@@ -51,6 +51,34 @@ function createBookElement(elementName: string, content: string, className: stri
     return element;
 }
 
+function createReadElement(bookItem: HTMLElement, book): HTMLElement {
+    const read : HTMLElement = document.createElement('div');
+    read.setAttribute('class', 'book-read');
+    read.appendChild(createBookElement('h1', "Read Status: ", "book-status"));
+    const input: HTMLInputElement = document.createElement('input');
+    input.type = 'checkbox';
+    input.addEventListener('click', (e ) => {
+        if ('checked' in e.target) {
+            bookItem.setAttribute('class', "read-checked");
+            book.isRead = true;
+            renderBooks();
+        } else {
+            bookItem.setAttribute('class', "read-unchecked");
+            book.isRead = false;
+            renderBooks();
+        }
+    });
+    if (book.read) {
+        input.checked = true;
+        bookItem.setAttribute('class', "read-checked");
+    }
+    read.appendChild(input);
+    return read;
+
+
+    return read;
+}
+
 function createBookItem(book, index: number): void {
     const books: HTMLElement = document.querySelector(".books");
     const bookItem : HTMLElement = document.createElement('div');
@@ -67,7 +95,7 @@ function createBookItem(book, index: number): void {
     bookItem.appendChild(
         createBookElement('h1', `Pages: ${book.pages}`, 'book-pages')
     );
-    // bookItem.appendChild(createReadElement(bookItem, book));
+    bookItem.appendChild(createReadElement(bookItem, book));
     books.insertAdjacentElement('beforeend', bookItem);
 }
 
