@@ -29,25 +29,26 @@ class Book {
     }
 }
 
-// Selectors
-// const books: Element = document.querySelector(".books");
-
-// Library Modification
+// Library Modification //
 function addBookToLibrary(): void {
     myLibrary.push(new Book(bookInput.title, bookInput.author, bookInput.pages, bookInput.isRead));
 }
 
-// function displayLibrary():void {
-//     for (let i = 0; i < myLibrary.length; i++) {
-//         console.log(myLibrary[i]);
-//     }
-// }
-
-// DOM Modification
+// DOM Modification //
 function createBookElement(elementName: string, content: string, className: string): HTMLElement {
     const element : HTMLElement = document.createElement(elementName);
     element.textContent = content;
     element.setAttribute("class", className);
+    return element;
+}
+
+function createEditBtn(elementName: string, content: string, className: string): HTMLElement {
+    const element : HTMLElement = document.createElement(elementName);
+    element.textContent = content;
+    element.setAttribute("class", className);
+    element.addEventListener('click', (e) => {
+        console.log(e);
+    })
     return element;
 }
 
@@ -57,34 +58,31 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
     read.appendChild(createBookElement('h1', "Read Status: ", "book-status"));
     const input: HTMLInputElement = document.createElement('input');
     input.type = 'checkbox';
-    input.addEventListener('click', (e ) => {
-        if ('checked' in e.target) {
-            bookItem.setAttribute('class', "read-checked");
-            book.isRead = true;
-            renderBooks();
-        } else {
-            bookItem.setAttribute('class', "read-unchecked");
-            book.isRead = false;
-            renderBooks();
-        }
-    });
-    if (book.read) {
+    if (book.isRead) {
+        bookItem.setAttribute('class', "card book read-checked");
         input.checked = true;
-        bookItem.setAttribute('class', "read-checked");
     }
+    input.addEventListener('click', (e ) => {
+        if (e.target["checked"]) {
+            bookItem.setAttribute('class', "card book read-checked");
+            book.isRead = true;
+        } else {
+            bookItem.setAttribute('class', "card book read-unchecked");
+            book.isRead = false;
+        }
+        console.log(e);
+    });
     read.appendChild(input);
     return read;
 
-
-    return read;
 }
 
-function createBookItem(book, index: number): void {
+function createBookCard(book, index: number): void {
     const books: HTMLElement = document.querySelector(".books");
-    const bookItem : HTMLElement = document.createElement('div');
+    const bookItem: HTMLElement = document.createElement('div');
     bookItem.setAttribute('id', index.toString());
     bookItem.setAttribute('key', index.toString());
-    bookItem.setAttribute('class', 'card book');
+    bookItem.setAttribute('class', 'card book read-unchecked');
 
     bookItem.appendChild(
         createBookElement('h1', `Title: ${book.title}`, 'book-title')
@@ -96,12 +94,16 @@ function createBookItem(book, index: number): void {
         createBookElement('h1', `Pages: ${book.pages}`, 'book-pages')
     );
     bookItem.appendChild(createReadElement(bookItem, book));
+    bookItem.appendChild(createBookElement('button', "X", 'delete'));
+    bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
     books.insertAdjacentElement('beforeend', bookItem);
 }
 
 function renderBooks(): void {
+    const books: HTMLElement = document.querySelector(".books");
+    books.textContent = "";
     myLibrary.map((book : Object, index : number ): void => {
-        createBookItem(book, index);
+        createBookCard(book, index);
     })
 }
 
