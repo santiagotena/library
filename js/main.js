@@ -77,7 +77,7 @@ function createBookCard(book, index) {
     bookItem.appendChild(createBookElement('h1', `Author: ${book.author}`, 'book-author'));
     bookItem.appendChild(createBookElement('h1', `Pages: ${book.pages}`, 'book-pages'));
     bookItem.appendChild(createReadElement(bookItem, book));
-    bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
+    // bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
     bookItem.appendChild(createBookElement('button', "X", 'delete'));
     bookItem.querySelector('.delete').addEventListener('click', () => {
         deleteBook(index);
@@ -91,24 +91,24 @@ function renderBooks() {
     add.setAttribute('class', 'add-btn');
     add.textContent = "+";
     books.appendChild(add);
+    const modal = document.querySelector("#modal");
+    const span = document.querySelector('.close');
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
+    });
+    span.addEventListener('click', () => {
+        modal.style.display = "none";
+    });
+    add.addEventListener('click', () => {
+        modal.style.display = 'block';
+        // document.querySelector('.form-add-button').textContent = "Add";
+    });
     myLibrary.map((book, index) => {
         createBookCard(book, index);
     });
 }
-// Event listeners
-// Starting conditions
-// bookInput.title = "Harry Potter and the Philosopher's Stone";
-// bookInput.author = "J. K. Rowling";
-// bookInput.pages = 223;
-// bookInput.isRead = true;
-// addBookToLibrary();
-// bookInput.title = "The Hobbit";
-// bookInput.author = "J. R. R. Tolkien";
-// bookInput.pages = 310;
-// bookInput.isRead = false;
-// addBookToLibrary();
-// displayLibrary();
-// renderBooks();
 bookInput.title = "The Happiness Hypothesis";
 bookInput.author = "Jonathan Haidt";
 bookInput.pages = 320;
