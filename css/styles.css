@@ -99,8 +99,10 @@ body {
 }
 .edit-btn {
     background-color: var(--bg--catalogue);
-    width: 100px;
+    width: 150px;
     align-self: center;
+    border-radius: 0.6rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
 
 /*Read status toggle*/
