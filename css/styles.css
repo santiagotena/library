@@ -41,6 +41,30 @@ body {
     width: 100vw;
 }
 
+.add-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: darkred;
+    color: white;
+    font-size: 5rem;
+    font-weight: bold;
+    border-radius: 0.6rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    padding: 2rem;
+
+    width: 200px;
+    height: 200px;
+
+    align-self: center;
+    justify-self: center;
+
+    min-width: 200px;
+    min-height: 1fr;
+
+}
+
 /*Book elements styling*/
 .book {
     position: relative;
@@ -89,13 +113,15 @@ body {
     display: flex;
     align-items: center;
 }
-.book-read > input {
-    cursor: pointer;
-}
 .book-status {
     font-size: 1.3rem;
     font-weight: 500;
-    margin-right: 5px;
+    margin-right: 10px;
+}
+.book-read > input {
+    cursor: pointer;
+    padding-left: 10px;
+    transform: scale(1.5);
 }
 .edit-btn {
     background-color: var(--bg--catalogue);

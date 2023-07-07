@@ -70,15 +70,19 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
             bookItem.setAttribute('class', "book read-unchecked");
             book.isRead = false;
         }
-        console.log(e);
     });
     read.appendChild(input);
     return read;
 
 }
 
+function deleteBook(index: number): void {
+    myLibrary.splice(index, 1);
+    renderBooks();
+}
+
 function createBookCard(book, index: number): void {
-    const books: HTMLElement = document.querySelector(".books");
+    const add: HTMLElement = document.querySelector(".add-btn");
     const bookItem: HTMLElement = document.createElement('div');
     bookItem.setAttribute('id', index.toString());
     bookItem.setAttribute('key', index.toString());
@@ -94,14 +98,24 @@ function createBookCard(book, index: number): void {
         createBookElement('h1', `Pages: ${book.pages}`, 'book-pages')
     );
     bookItem.appendChild(createReadElement(bookItem, book));
-    bookItem.appendChild(createBookElement('button', "X", 'delete'));
     bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
-    books.insertAdjacentElement('beforeend', bookItem);
+    bookItem.appendChild(createBookElement('button', "X", 'delete'));
+
+    bookItem.querySelector('.delete').addEventListener('click', () => {
+        deleteBook(index);
+    })
+    add.insertAdjacentElement('beforebegin', bookItem);
 }
 
 function renderBooks(): void {
     const books: HTMLElement = document.querySelector(".books");
     books.textContent = "";
+    const add: HTMLElement = document.createElement('div');
+    add.setAttribute('class', 'add-btn');
+    add.textContent = "+";
+    books.appendChild(add);
+
+
     myLibrary.map((book : Object, index : number ): void => {
         createBookCard(book, index);
     })

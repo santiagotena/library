@@ -59,13 +59,16 @@ function createReadElement(bookItem, book) {
             bookItem.setAttribute('class', "book read-unchecked");
             book.isRead = false;
         }
-        console.log(e);
     });
     read.appendChild(input);
     return read;
 }
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
+    renderBooks();
+}
 function createBookCard(book, index) {
-    const books = document.querySelector(".books");
+    const add = document.querySelector(".add-btn");
     const bookItem = document.createElement('div');
     bookItem.setAttribute('id', index.toString());
     bookItem.setAttribute('key', index.toString());
@@ -74,13 +77,20 @@ function createBookCard(book, index) {
     bookItem.appendChild(createBookElement('h1', `Author: ${book.author}`, 'book-author'));
     bookItem.appendChild(createBookElement('h1', `Pages: ${book.pages}`, 'book-pages'));
     bookItem.appendChild(createReadElement(bookItem, book));
-    bookItem.appendChild(createBookElement('button', "X", 'delete'));
     bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
-    books.insertAdjacentElement('beforeend', bookItem);
+    bookItem.appendChild(createBookElement('button', "X", 'delete'));
+    bookItem.querySelector('.delete').addEventListener('click', () => {
+        deleteBook(index);
+    });
+    add.insertAdjacentElement('beforebegin', bookItem);
 }
 function renderBooks() {
     const books = document.querySelector(".books");
     books.textContent = "";
+    const add = document.createElement('div');
+    add.setAttribute('class', 'add-btn');
+    add.textContent = "+";
+    books.appendChild(add);
     myLibrary.map((book, index) => {
         createBookCard(book, index);
     });
