@@ -125,13 +125,11 @@ function renderBooks(): void {
     });
 
     span.addEventListener('click', () => {
-       modal.style.display = "none";
+       modal.style.display = 'none';
     });
 
     add.addEventListener('click', () => {
         modal.style.display = 'block';
-        // document.querySelector('.form-add-button').textContent = "Add";
-
     });
 
     myLibrary.map((book : Object, index : number ): void => {
@@ -139,7 +137,28 @@ function renderBooks(): void {
     })
 }
 
+const addBookForm: HTMLFormElement = document.querySelector('.add-book-form') as HTMLFormElement;
+addBookForm.addEventListener('submit', (e) => {
+   e.preventDefault();
+   const data = new FormData(e.target as HTMLFormElement);
+   const modal = document.querySelector("#modal") as HTMLElement;
 
+   let newBook = {};
+   for (let [name, value] of data) {
+       newBook[name] = value;
+   }
+
+   bookInput.title = newBook["book-title"];
+   bookInput.author = newBook["book-author"];
+   bookInput.pages = newBook["book-pages"];
+   bookInput.isRead = newBook["book-read"];
+   addBookToLibrary();
+   renderBooks();
+   addBookForm.reset();
+   modal.style.display = "none";
+});
+
+// Default values //
 bookInput.title = "The Happiness Hypothesis";
 bookInput.author = "Jonathan Haidt";
 bookInput.pages = 320;
@@ -148,27 +167,26 @@ addBookToLibrary();
 bookInput.title = "The Mindful Geek";
 bookInput.author = "Michael Taft";
 bookInput.pages = 242;
-bookInput.isRead = true;
+bookInput.isRead = false;
 addBookToLibrary();
 bookInput.title = "Hold Me Tight";
 bookInput.author = "Sue Johnson";
 bookInput.pages = 320;
 bookInput.isRead = true;
 addBookToLibrary();
-bookInput.title = "Models";
-bookInput.author = "Mark Manson";
-bookInput.pages = 260;
-bookInput.isRead = true;
-addBookToLibrary();
-bookInput.title = "Beyond Order";
-bookInput.author = "Jordan Peterson";
-bookInput.pages = 432;
-bookInput.isRead = true;
-addBookToLibrary();
-bookInput.title = "How to Live a Good Life";
-bookInput.author = "Massimo Pigliucci et al.";
-bookInput.pages = 257;
-bookInput.isRead = false;
-addBookToLibrary();
-// displayLibrary();
+// bookInput.title = "Models";
+// bookInput.author = "Mark Manson";
+// bookInput.pages = 260;
+// bookInput.isRead = true;
+// addBookToLibrary();
+// bookInput.title = "Beyond Order";
+// bookInput.author = "Jordan Peterson";
+// bookInput.pages = 432;
+// bookInput.isRead = true;
+// addBookToLibrary();
+// bookInput.title = "How to Live a Good Life";
+// bookInput.author = "Massimo Pigliucci et al.";
+// bookInput.pages = 257;
+// bookInput.isRead = false;
+// addBookToLibrary();
 renderBooks();
