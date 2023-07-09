@@ -153,7 +153,7 @@ renderBooks();
 // addBookToLibrary();
 // renderBooks();
 // To do //
-// [ ] Typescript use
-// [ ] Modal CSS
+// [x] Typescript use
+// [x] Modal CSS
 // [ ] Refactor
 // [ ] Multiple files
