@@ -27,7 +27,6 @@ const addBookForm = document.querySelector('.add-book-form');
 addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
-    const modal = document.querySelector("#modal");
     let newBook = {};
     for (let [name, value] of data)
         newBook[name] = value;
@@ -38,6 +37,7 @@ addBookForm.addEventListener('submit', (e) => {
     addBookToLibrary();
     renderBooks();
     addBookForm.reset();
+    const modal = document.querySelector("#modal");
     modal.style.display = "none";
 });
 // Library Modification //
@@ -79,7 +79,6 @@ function createReadElement(bookItem, book) {
     return read;
 }
 function createBookCard(book, index) {
-    const add = document.querySelector(".add-btn");
     const bookItem = document.createElement('div');
     bookItem.setAttribute('id', index.toString());
     bookItem.setAttribute('key', index.toString());
@@ -92,6 +91,7 @@ function createBookCard(book, index) {
     bookItem.querySelector('.delete').addEventListener('click', () => {
         deleteBook(index);
     });
+    const add = document.querySelector(".add-btn");
     add.insertAdjacentElement('beforebegin', bookItem);
 }
 // Display books //
@@ -104,16 +104,16 @@ function renderBooks() {
     books.appendChild(add);
     const modal = document.querySelector("#modal");
     const span = document.querySelector('.close');
-    window.addEventListener('click', (e) => {
-        if (e.target == modal) {
-            modal.style.display = "none";
-        }
-    });
     span.addEventListener('click', () => {
         modal.style.display = 'none';
     });
     add.addEventListener('click', () => {
         modal.style.display = 'block';
+    });
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
     });
     myLibrary.map((book, index) => {
         createBookCard(book, index);

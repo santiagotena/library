@@ -36,9 +36,8 @@ class Book {
 const addBookForm: HTMLFormElement = document.querySelector('.add-book-form') as HTMLFormElement;
 addBookForm.addEventListener('submit', (e : SubmitEvent): void => {
     e.preventDefault();
-    const data: FormData = new FormData(e.target as HTMLFormElement);
-    const modal: HTMLElement = document.querySelector("#modal") as HTMLElement;
 
+    const data: FormData = new FormData(e.target as HTMLFormElement);
     let newBook = {};
     for (let [name , value] of data)
         newBook[name] = value;
@@ -47,9 +46,12 @@ addBookForm.addEventListener('submit', (e : SubmitEvent): void => {
     bookInput.author = newBook["book-author"];
     bookInput.pages = newBook["book-pages"];
     bookInput.isRead = newBook["book-read"];
+
     addBookToLibrary();
     renderBooks();
     addBookForm.reset();
+
+    const modal: HTMLElement = document.querySelector("#modal") as HTMLElement;
     modal.style.display = "none";
 });
 
@@ -75,6 +77,7 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
     const read : HTMLElement = document.createElement('div');
     read.setAttribute('class', 'book-read');
     read.appendChild(createBookElement('h1', "Read Status: ", "book-status"));
+
     const input: HTMLInputElement = document.createElement('input');
     input.type = 'checkbox';
     if (book.isRead) {
@@ -96,12 +99,11 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
 }
 
 function createBookCard(book, index: number): void {
-    const add: HTMLElement = document.querySelector(".add-btn");
+
     const bookItem: HTMLElement = document.createElement('div');
     bookItem.setAttribute('id', index.toString());
     bookItem.setAttribute('key', index.toString());
     bookItem.setAttribute('class', 'book read-unchecked');
-
     bookItem.appendChild(
         createBookElement('h1', `${book.title}`, 'book-title')
     );
@@ -111,17 +113,21 @@ function createBookCard(book, index: number): void {
     bookItem.appendChild(
         createBookElement('h1', `Pages: ${book.pages}`, 'book-pages')
     );
+
     bookItem.appendChild(createReadElement(bookItem, book));
     bookItem.appendChild(createBookElement('button', "X", 'delete'));
 
     bookItem.querySelector('.delete').addEventListener('click', (): void => {
         deleteBook(index);
     })
+
+    const add: HTMLElement = document.querySelector(".add-btn");
     add.insertAdjacentElement('beforebegin', bookItem);
 }
 
 // Display books //
 function renderBooks(): void {
+
     const books: HTMLElement = document.querySelector(".books");
     books.textContent = "";
     const add: HTMLElement = document.createElement('div');
@@ -131,19 +137,17 @@ function renderBooks(): void {
 
     const modal: HTMLElement = document.querySelector("#modal") as HTMLElement;
     const span: HTMLElement = document.querySelector('.close');
-
-    window.addEventListener('click', (e : MouseEvent): void => {
-        if (e.target == modal) {
-            modal.style.display = "none";
-        }
-    });
-
     span.addEventListener('click', (): void => {
        modal.style.display = 'none';
     });
 
     add.addEventListener('click', (): void => {
         modal.style.display = 'block';
+    });
+    window.addEventListener('click', (e : MouseEvent): void => {
+        if (e.target == modal) {
+            modal.style.display = "none";
+        }
     });
 
     myLibrary.map((book : Object, index : number ): void => {
