@@ -1,6 +1,5 @@
 import {deleteBook} from "./library-modification.js";
 
-// DOM Modification //
 function createBookElement(elementName: string, content: string, className: string): HTMLElement {
     const element : HTMLElement = document.createElement(elementName);
     element.textContent = content;
@@ -8,11 +7,12 @@ function createBookElement(elementName: string, content: string, className: stri
     return element;
 }
 
-function createReadElement(bookItem: HTMLElement, book): HTMLElement {
-    const read : HTMLElement = document.createElement('div');
+function setupReadElement(read: HTMLElement): void {
     read.setAttribute('class', 'book-read');
     read.appendChild(createBookElement('h1', "Read Status: ", "book-status"));
+}
 
+function addCheckbox(book, bookItem: HTMLElement): HTMLElement {
     const input: HTMLInputElement = document.createElement('input');
     input.type = 'checkbox';
     if (book.isRead) {
@@ -28,14 +28,18 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
             book.isRead = false;
         }
     });
-    read.appendChild(input);
-    return read;
-
+    return input;
 }
 
-function createBookCard(book, index: number): void {
+function createReadElement(bookItem: HTMLElement, book): HTMLElement {
+    const read : HTMLElement = document.createElement('div');
+    setupReadElement(read);
+    const input: HTMLElement = addCheckbox(book, bookItem);
+    read.appendChild(input);
+    return read;
+}
 
-    const bookItem: HTMLElement = document.createElement('div');
+function fillBookItem(bookItem: HTMLElement, book, index: number): void {
     bookItem.setAttribute('id', index.toString());
     bookItem.setAttribute('key', index.toString());
     bookItem.setAttribute('class', 'book read-unchecked');
@@ -48,16 +52,29 @@ function createBookCard(book, index: number): void {
     bookItem.appendChild(
         createBookElement('h1', `Pages: ${book.pages}`, 'book-pages')
     );
+}
 
-    bookItem.appendChild(createReadElement(bookItem, book));
+function addDeleteButton(bookItem: HTMLElement, index: number): void {
     bookItem.appendChild(createBookElement('button', "X", 'delete'));
-
     bookItem.querySelector('.delete').addEventListener('click', (): void => {
         deleteBook(index);
     })
+}
 
+function addReadElement(bookItem: HTMLElement, book) {
+    bookItem.appendChild(createReadElement(bookItem, book));
+}
+function insertBook(bookItem: HTMLElement): void {
     const add: HTMLElement = document.querySelector(".add-btn");
     add.insertAdjacentElement('beforebegin', bookItem);
+}
+
+function createBookCard(book, index: number): void {
+    const bookItem: HTMLElement = document.createElement('div');
+    fillBookItem(bookItem, book, index);
+    addReadElement(bookItem, book);
+    addDeleteButton(bookItem, index);
+    insertBook(bookItem);
 }
 
 export {createBookCard};

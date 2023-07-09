@@ -1,15 +1,12 @@
-// Display books //
 import { myLibrary } from "./main.js";
 import { createBookCard } from "./create-book-card.js";
-function renderBooks() {
-    const books = document.querySelector(".books");
+function createAddButton(books, add) {
     books.textContent = "";
-    const add = document.createElement('div');
     add.setAttribute('class', 'add-btn');
     add.textContent = "+";
     books.appendChild(add);
-    const modal = document.querySelector("#modal");
-    const span = document.querySelector('.close');
+}
+function addModalEventListeners(span, add, modal) {
     span.addEventListener('click', () => {
         modal.style.display = 'none';
     });
@@ -17,12 +14,22 @@ function renderBooks() {
         modal.style.display = 'block';
     });
     window.addEventListener('click', (e) => {
-        if (e.target == modal) {
+        if (e.target == modal)
             modal.style.display = "none";
-        }
     });
+}
+function displayBooks() {
     myLibrary.map((book, index) => {
         createBookCard(book, index);
     });
+}
+function renderBooks() {
+    const books = document.querySelector(".books");
+    const add = document.createElement('div');
+    const modal = document.querySelector("#modal");
+    const span = document.querySelector('.close');
+    createAddButton(books, add);
+    addModalEventListeners(span, add, modal);
+    displayBooks();
 }
 export { renderBooks };

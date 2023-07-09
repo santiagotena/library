@@ -7,9 +7,7 @@ const bookInput = {
     pages: undefined,
     isRead: undefined,
 };
-const addBookForm = document.querySelector('.add-book-form');
-addBookForm.addEventListener('submit', (e) => {
-    e.preventDefault();
+function fillBookInput(e) {
     const data = new FormData(e.target);
     let newBook = {};
     for (let [name, value] of data)
@@ -18,11 +16,19 @@ addBookForm.addEventListener('submit', (e) => {
     bookInput.author = newBook["book-author"];
     bookInput.pages = newBook["book-pages"];
     bookInput.isRead = newBook["book-read"];
-    addBookToLibrary();
-    renderBooks();
-    addBookForm.reset();
+}
+function hideModal() {
     const modal = document.querySelector("#modal");
     modal.style.display = "none";
+}
+const addBookForm = document.querySelector('.add-book-form');
+addBookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    fillBookInput(e);
+    addBookForm.reset();
+    hideModal();
+    addBookToLibrary();
+    renderBooks();
 });
 // Default values //
 bookInput.title = "The Happiness Hypothesis";
@@ -42,25 +48,3 @@ bookInput.isRead = true;
 addBookToLibrary();
 renderBooks();
 export { myLibrary, bookInput };
-// bookInput.title = "Models";
-// bookInput.author = "Mark Manson";
-// bookInput.pages = 260;
-// bookInput.isRead = true;
-// addBookToLibrary();
-// bookInput.title = "Beyond Order";
-// bookInput.author = "Jordan Peterson";
-// bookInput.pages = 432;
-// bookInput.isRead = true;
-// addBookToLibrary();
-// bookInput.title = "How to Live a Good Life";
-// bookInput.author = "Massimo Pigliucci et al.";
-// bookInput.pages = 257;
-// bookInput.isRead = false;
-// addBookToLibrary();
-// renderBooks();
-// To do //
-// [x] Typescript use
-// [x] Modal CSS
-// [ ] Refactor
-// [x] Multiple files
-////////////////////////////////////////////////

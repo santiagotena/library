@@ -1,4 +1,3 @@
-// Library Modification //
 import { Book } from "./Book.js";
 import { myLibrary, bookInput } from "./main.js";
 import { renderBooks } from "./render-books.js";
