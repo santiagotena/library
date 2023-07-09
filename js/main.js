@@ -1,3 +1,4 @@
+// import {Book} from "./Book.js";
 // Global scope //
 let myLibrary = [];
 const bookInput = {
@@ -6,6 +7,7 @@ const bookInput = {
     pages: undefined,
     isRead: undefined,
 };
+// Book //
 class Book {
     constructor(title, author, pages, isRead) {
         this.info = () => {
@@ -20,24 +22,37 @@ class Book {
         this.isRead = isRead;
     }
 }
+// Modal //
+const addBookForm = document.querySelector('.add-book-form');
+addBookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const modal = document.querySelector("#modal");
+    let newBook = {};
+    for (let [name, value] of data)
+        newBook[name] = value;
+    bookInput.title = newBook["book-title"];
+    bookInput.author = newBook["book-author"];
+    bookInput.pages = newBook["book-pages"];
+    bookInput.isRead = newBook["book-read"];
+    addBookToLibrary();
+    renderBooks();
+    addBookForm.reset();
+    modal.style.display = "none";
+});
 // Library Modification //
 function addBookToLibrary() {
     myLibrary.push(new Book(bookInput.title, bookInput.author, bookInput.pages, bookInput.isRead));
+}
+function deleteBook(index) {
+    myLibrary.splice(index, 1);
+    renderBooks();
 }
 // DOM Modification //
 function createBookElement(elementName, content, className) {
     const element = document.createElement(elementName);
     element.textContent = content;
-    element.setAttribute("class", className);
-    return element;
-}
-function createEditBtn(elementName, content, className) {
-    const element = document.createElement(elementName);
-    element.textContent = content;
-    element.setAttribute("class", className);
-    element.addEventListener('click', (e) => {
-        console.log(e);
-    });
+    element.setAttribute('class', className);
     return element;
 }
 function createReadElement(bookItem, book) {
@@ -63,10 +78,6 @@ function createReadElement(bookItem, book) {
     read.appendChild(input);
     return read;
 }
-function deleteBook(index) {
-    myLibrary.splice(index, 1);
-    renderBooks();
-}
 function createBookCard(book, index) {
     const add = document.querySelector(".add-btn");
     const bookItem = document.createElement('div');
@@ -77,13 +88,13 @@ function createBookCard(book, index) {
     bookItem.appendChild(createBookElement('h1', `Author: ${book.author}`, 'book-author'));
     bookItem.appendChild(createBookElement('h1', `Pages: ${book.pages}`, 'book-pages'));
     bookItem.appendChild(createReadElement(bookItem, book));
-    // bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
     bookItem.appendChild(createBookElement('button', "X", 'delete'));
     bookItem.querySelector('.delete').addEventListener('click', () => {
         deleteBook(index);
     });
     add.insertAdjacentElement('beforebegin', bookItem);
 }
+// Display books //
 function renderBooks() {
     const books = document.querySelector(".books");
     books.textContent = "";
@@ -108,24 +119,6 @@ function renderBooks() {
         createBookCard(book, index);
     });
 }
-const addBookForm = document.querySelector('.add-book-form');
-addBookForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    const modal = document.querySelector("#modal");
-    let newBook = {};
-    for (let [name, value] of data) {
-        newBook[name] = value;
-    }
-    bookInput.title = newBook["book-title"];
-    bookInput.author = newBook["book-author"];
-    bookInput.pages = newBook["book-pages"];
-    bookInput.isRead = newBook["book-read"];
-    addBookToLibrary();
-    renderBooks();
-    addBookForm.reset();
-    modal.style.display = "none";
-});
 // Default values //
 bookInput.title = "The Happiness Hypothesis";
 bookInput.author = "Jonathan Haidt";
@@ -142,6 +135,7 @@ bookInput.author = "Sue Johnson";
 bookInput.pages = 320;
 bookInput.isRead = true;
 addBookToLibrary();
+renderBooks();
 // bookInput.title = "Models";
 // bookInput.author = "Mark Manson";
 // bookInput.pages = 260;
@@ -157,4 +151,9 @@ addBookToLibrary();
 // bookInput.pages = 257;
 // bookInput.isRead = false;
 // addBookToLibrary();
-renderBooks();
+// renderBooks();
+// To do //
+// [ ] Typescript use
+// [ ] Modal CSS
+// [ ] Refactor
+// [ ] Multiple files

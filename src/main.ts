@@ -1,3 +1,5 @@
+// import {Book} from "./Book.js";
+
 // Global scope //
 let myLibrary : Object[] = [];
 
@@ -8,6 +10,7 @@ const bookInput: {title: string, author: string, pages: number, isRead: boolean}
     isRead: undefined,
 };
 
+// Book //
 class Book {
     title: string;
     author: string;
@@ -29,26 +32,42 @@ class Book {
     }
 }
 
+// Modal //
+const addBookForm: HTMLFormElement = document.querySelector('.add-book-form') as HTMLFormElement;
+addBookForm.addEventListener('submit', (e : SubmitEvent): void => {
+    e.preventDefault();
+    const data: FormData = new FormData(e.target as HTMLFormElement);
+    const modal: HTMLElement = document.querySelector("#modal") as HTMLElement;
+
+    let newBook = {};
+    for (let [name , value] of data)
+        newBook[name] = value;
+
+    bookInput.title = newBook["book-title"];
+    bookInput.author = newBook["book-author"];
+    bookInput.pages = newBook["book-pages"];
+    bookInput.isRead = newBook["book-read"];
+    addBookToLibrary();
+    renderBooks();
+    addBookForm.reset();
+    modal.style.display = "none";
+});
+
 // Library Modification //
 function addBookToLibrary(): void {
     myLibrary.push(new Book(bookInput.title, bookInput.author, bookInput.pages, bookInput.isRead));
+}
+
+function deleteBook(index: number): void {
+    myLibrary.splice(index, 1);
+    renderBooks();
 }
 
 // DOM Modification //
 function createBookElement(elementName: string, content: string, className: string): HTMLElement {
     const element : HTMLElement = document.createElement(elementName);
     element.textContent = content;
-    element.setAttribute("class", className);
-    return element;
-}
-
-function createEditBtn(elementName: string, content: string, className: string): HTMLElement {
-    const element : HTMLElement = document.createElement(elementName);
-    element.textContent = content;
-    element.setAttribute("class", className);
-    element.addEventListener('click', (e) => {
-        console.log(e);
-    })
+    element.setAttribute('class', className);
     return element;
 }
 
@@ -62,7 +81,7 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
         bookItem.setAttribute('class', "book read-checked");
         input.checked = true;
     }
-    input.addEventListener('click', (e ) => {
+    input.addEventListener('click', (e : MouseEvent ): void => {
         if (e.target["checked"]) {
             bookItem.setAttribute('class', "book read-checked");
             book.isRead = true;
@@ -74,11 +93,6 @@ function createReadElement(bookItem: HTMLElement, book): HTMLElement {
     read.appendChild(input);
     return read;
 
-}
-
-function deleteBook(index: number): void {
-    myLibrary.splice(index, 1);
-    renderBooks();
 }
 
 function createBookCard(book, index: number): void {
@@ -98,15 +112,15 @@ function createBookCard(book, index: number): void {
         createBookElement('h1', `Pages: ${book.pages}`, 'book-pages')
     );
     bookItem.appendChild(createReadElement(bookItem, book));
-    // bookItem.appendChild(createEditBtn('button', "Edit", 'edit-btn'));
     bookItem.appendChild(createBookElement('button', "X", 'delete'));
 
-    bookItem.querySelector('.delete').addEventListener('click', () => {
+    bookItem.querySelector('.delete').addEventListener('click', (): void => {
         deleteBook(index);
     })
     add.insertAdjacentElement('beforebegin', bookItem);
 }
 
+// Display books //
 function renderBooks(): void {
     const books: HTMLElement = document.querySelector(".books");
     books.textContent = "";
@@ -115,20 +129,20 @@ function renderBooks(): void {
     add.textContent = "+";
     books.appendChild(add);
 
-    const modal = document.querySelector("#modal") as HTMLElement;
-    const span = document.querySelector('.close');
+    const modal: HTMLElement = document.querySelector("#modal") as HTMLElement;
+    const span: HTMLElement = document.querySelector('.close');
 
-    window.addEventListener('click', (e) => {
+    window.addEventListener('click', (e : MouseEvent): void => {
         if (e.target == modal) {
             modal.style.display = "none";
         }
     });
 
-    span.addEventListener('click', () => {
+    span.addEventListener('click', (): void => {
        modal.style.display = 'none';
     });
 
-    add.addEventListener('click', () => {
+    add.addEventListener('click', (): void => {
         modal.style.display = 'block';
     });
 
@@ -136,27 +150,6 @@ function renderBooks(): void {
         createBookCard(book, index);
     })
 }
-
-const addBookForm: HTMLFormElement = document.querySelector('.add-book-form') as HTMLFormElement;
-addBookForm.addEventListener('submit', (e) => {
-   e.preventDefault();
-   const data = new FormData(e.target as HTMLFormElement);
-   const modal = document.querySelector("#modal") as HTMLElement;
-
-   let newBook = {};
-   for (let [name, value] of data) {
-       newBook[name] = value;
-   }
-
-   bookInput.title = newBook["book-title"];
-   bookInput.author = newBook["book-author"];
-   bookInput.pages = newBook["book-pages"];
-   bookInput.isRead = newBook["book-read"];
-   addBookToLibrary();
-   renderBooks();
-   addBookForm.reset();
-   modal.style.display = "none";
-});
 
 // Default values //
 bookInput.title = "The Happiness Hypothesis";
@@ -174,6 +167,8 @@ bookInput.author = "Sue Johnson";
 bookInput.pages = 320;
 bookInput.isRead = true;
 addBookToLibrary();
+renderBooks();
+
 // bookInput.title = "Models";
 // bookInput.author = "Mark Manson";
 // bookInput.pages = 260;
@@ -189,4 +184,10 @@ addBookToLibrary();
 // bookInput.pages = 257;
 // bookInput.isRead = false;
 // addBookToLibrary();
-renderBooks();
+// renderBooks();
+
+// To do //
+// [ ] Typescript use
+// [ ] Modal CSS
+// [ ] Refactor
+// [ ] Multiple files
