@@ -1,5 +1,5 @@
-// import {Book} from "./Book.js";
-// Global scope //
+import { addBookToLibrary } from "./library-modification.js";
+import { renderBooks } from "./render-books.js";
 let myLibrary = [];
 const bookInput = {
     title: undefined,
@@ -7,22 +7,6 @@ const bookInput = {
     pages: undefined,
     isRead: undefined,
 };
-// Book //
-class Book {
-    constructor(title, author, pages, isRead) {
-        this.info = () => {
-            let readStatement = "not read yet";
-            if (this.isRead)
-                readStatement = "already read";
-            return (`${this.title} by ${this.author}, ${this.pages}, ${readStatement}`);
-        };
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.isRead = isRead;
-    }
-}
-// Modal //
 const addBookForm = document.querySelector('.add-book-form');
 addBookForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -40,85 +24,6 @@ addBookForm.addEventListener('submit', (e) => {
     const modal = document.querySelector("#modal");
     modal.style.display = "none";
 });
-// Library Modification //
-function addBookToLibrary() {
-    myLibrary.push(new Book(bookInput.title, bookInput.author, bookInput.pages, bookInput.isRead));
-}
-function deleteBook(index) {
-    myLibrary.splice(index, 1);
-    renderBooks();
-}
-// DOM Modification //
-function createBookElement(elementName, content, className) {
-    const element = document.createElement(elementName);
-    element.textContent = content;
-    element.setAttribute('class', className);
-    return element;
-}
-function createReadElement(bookItem, book) {
-    const read = document.createElement('div');
-    read.setAttribute('class', 'book-read');
-    read.appendChild(createBookElement('h1', "Read Status: ", "book-status"));
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    if (book.isRead) {
-        bookItem.setAttribute('class', "book read-checked");
-        input.checked = true;
-    }
-    input.addEventListener('click', (e) => {
-        if (e.target["checked"]) {
-            bookItem.setAttribute('class', "book read-checked");
-            book.isRead = true;
-        }
-        else {
-            bookItem.setAttribute('class', "book read-unchecked");
-            book.isRead = false;
-        }
-    });
-    read.appendChild(input);
-    return read;
-}
-function createBookCard(book, index) {
-    const bookItem = document.createElement('div');
-    bookItem.setAttribute('id', index.toString());
-    bookItem.setAttribute('key', index.toString());
-    bookItem.setAttribute('class', 'book read-unchecked');
-    bookItem.appendChild(createBookElement('h1', `${book.title}`, 'book-title'));
-    bookItem.appendChild(createBookElement('h1', `Author: ${book.author}`, 'book-author'));
-    bookItem.appendChild(createBookElement('h1', `Pages: ${book.pages}`, 'book-pages'));
-    bookItem.appendChild(createReadElement(bookItem, book));
-    bookItem.appendChild(createBookElement('button', "X", 'delete'));
-    bookItem.querySelector('.delete').addEventListener('click', () => {
-        deleteBook(index);
-    });
-    const add = document.querySelector(".add-btn");
-    add.insertAdjacentElement('beforebegin', bookItem);
-}
-// Display books //
-function renderBooks() {
-    const books = document.querySelector(".books");
-    books.textContent = "";
-    const add = document.createElement('div');
-    add.setAttribute('class', 'add-btn');
-    add.textContent = "+";
-    books.appendChild(add);
-    const modal = document.querySelector("#modal");
-    const span = document.querySelector('.close');
-    span.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-    add.addEventListener('click', () => {
-        modal.style.display = 'block';
-    });
-    window.addEventListener('click', (e) => {
-        if (e.target == modal) {
-            modal.style.display = "none";
-        }
-    });
-    myLibrary.map((book, index) => {
-        createBookCard(book, index);
-    });
-}
 // Default values //
 bookInput.title = "The Happiness Hypothesis";
 bookInput.author = "Jonathan Haidt";
@@ -136,6 +41,7 @@ bookInput.pages = 320;
 bookInput.isRead = true;
 addBookToLibrary();
 renderBooks();
+export { myLibrary, bookInput };
 // bookInput.title = "Models";
 // bookInput.author = "Mark Manson";
 // bookInput.pages = 260;
@@ -156,4 +62,5 @@ renderBooks();
 // [x] Typescript use
 // [x] Modal CSS
 // [ ] Refactor
-// [ ] Multiple files
+// [x] Multiple files
+////////////////////////////////////////////////
