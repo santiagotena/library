@@ -7,6 +7,15 @@ const bookInput = {
     pages: undefined,
     isRead: undefined,
 };
+const addBookForm = document.querySelector('.add-book-form');
+addBookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    fillBookInput(e);
+    addBookForm.reset();
+    hideModal();
+    addBookToLibrary();
+    renderBooks();
+});
 function fillBookInput(e) {
     const data = new FormData(e.target);
     let newBook = {};
@@ -21,15 +30,6 @@ function hideModal() {
     const modal = document.querySelector("#modal");
     modal.style.display = "none";
 }
-const addBookForm = document.querySelector('.add-book-form');
-addBookForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    fillBookInput(e);
-    addBookForm.reset();
-    hideModal();
-    addBookToLibrary();
-    renderBooks();
-});
 // Default values //
 bookInput.title = "The Happiness Hypothesis";
 bookInput.author = "Jonathan Haidt";

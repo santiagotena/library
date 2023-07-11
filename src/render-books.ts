@@ -1,6 +1,16 @@
 import {myLibrary} from "./main.js";
 import {createBookCard} from "./create-book-card.js";
 
+function renderBooks(): void {
+    const books: HTMLElement = document.querySelector(".books");
+    const add: HTMLElement = document.createElement('div');
+    const modal: HTMLElement = document.querySelector("#modal");
+    const span: HTMLElement = document.querySelector('.close');
+
+    createAddButton(books, add);
+    addModalEventListeners(span, add, modal);
+    displayBooks();
+}
 function createAddButton(books: HTMLElement, add: HTMLElement): void {
     books.textContent = "";
     add.setAttribute('class', 'add-btn');
@@ -25,17 +35,6 @@ function displayBooks(): void {
     myLibrary.map((book : Object, index : number ): void => {
         createBookCard(book, index);
     })
-}
-
-function renderBooks(): void {
-    const books: HTMLElement = document.querySelector(".books");
-    const add: HTMLElement = document.createElement('div');
-    const modal: HTMLElement = document.querySelector("#modal");
-    const span: HTMLElement = document.querySelector('.close');
-
-    createAddButton(books, add);
-    addModalEventListeners(span, add, modal);
-    displayBooks();
 }
 
 export {renderBooks};

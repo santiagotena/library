@@ -10,6 +10,16 @@ const bookInput: {title: string, author: string, pages: number, isRead: boolean}
     isRead: undefined,
 };
 
+const addBookForm: HTMLFormElement = document.querySelector('.add-book-form') as HTMLFormElement;
+addBookForm.addEventListener('submit', (e : SubmitEvent): void => {
+    e.preventDefault();
+    fillBookInput(e);
+    addBookForm.reset();
+    hideModal();
+    addBookToLibrary();
+    renderBooks();
+});
+
 function fillBookInput(e : SubmitEvent): void {
     const data: FormData = new FormData(e.target as HTMLFormElement);
     let newBook = {};
@@ -25,16 +35,6 @@ function hideModal(): void {
     const modal: HTMLElement = document.querySelector("#modal") as HTMLElement;
     modal.style.display = "none";
 }
-
-const addBookForm: HTMLFormElement = document.querySelector('.add-book-form') as HTMLFormElement;
-addBookForm.addEventListener('submit', (e : SubmitEvent): void => {
-    e.preventDefault();
-    fillBookInput(e);
-    addBookForm.reset();
-    hideModal();
-    addBookToLibrary();
-    renderBooks();
-});
 
 // Default values //
 bookInput.title = "The Happiness Hypothesis";
