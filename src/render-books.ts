@@ -2,27 +2,27 @@ import {myLibrary} from "./main.js";
 import {createBookCard} from "./create-book-card.js";
 
 function renderBooks(): void {
+    const addButton: HTMLElement = document.createElement('div');
     const books: HTMLElement = document.querySelector(".books");
-    const add: HTMLElement = document.createElement('div');
     const modal: HTMLElement = document.querySelector("#modal");
-    const span: HTMLElement = document.querySelector('.close');
+    const closeButton: HTMLElement = document.querySelector('.close');
 
-    createAddButton(books, add);
-    addModalEventListeners(span, add, modal);
+    createAddButton(books, addButton);
+    addModalEventListeners(closeButton, addButton, modal);
     displayBooks();
 }
-function createAddButton(books: HTMLElement, add: HTMLElement): void {
+function createAddButton(books: HTMLElement, addButton: HTMLElement): void {
     books.textContent = "";
-    add.setAttribute('class', 'add-btn');
-    add.textContent = "+";
-    books.appendChild(add);
+    addButton.setAttribute('class', 'add-btn');
+    addButton.textContent = "+";
+    books.appendChild(addButton);
 }
 
-function addModalEventListeners(span: HTMLElement, add: HTMLElement, modal: HTMLElement): void {
-    span.addEventListener('click', (): void => {
+function addModalEventListeners(closeButton: HTMLElement, addButton: HTMLElement, modal: HTMLElement): void {
+    closeButton.addEventListener('click', (): void => {
         modal.style.display = 'none';
     });
-    add.addEventListener('click', (): void => {
+    addButton.addEventListener('click', (): void => {
         modal.style.display = 'block';
     });
     window.addEventListener('click', (e : MouseEvent): void => {

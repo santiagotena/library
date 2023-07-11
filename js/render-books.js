@@ -1,25 +1,25 @@
 import { myLibrary } from "./main.js";
 import { createBookCard } from "./create-book-card.js";
 function renderBooks() {
+    const addButton = document.createElement('div');
     const books = document.querySelector(".books");
-    const add = document.createElement('div');
     const modal = document.querySelector("#modal");
-    const span = document.querySelector('.close');
-    createAddButton(books, add);
-    addModalEventListeners(span, add, modal);
+    const closeButton = document.querySelector('.close');
+    createAddButton(books, addButton);
+    addModalEventListeners(closeButton, addButton, modal);
     displayBooks();
 }
-function createAddButton(books, add) {
+function createAddButton(books, addButton) {
     books.textContent = "";
-    add.setAttribute('class', 'add-btn');
-    add.textContent = "+";
-    books.appendChild(add);
+    addButton.setAttribute('class', 'add-btn');
+    addButton.textContent = "+";
+    books.appendChild(addButton);
 }
-function addModalEventListeners(span, add, modal) {
-    span.addEventListener('click', () => {
+function addModalEventListeners(closeButton, addButton, modal) {
+    closeButton.addEventListener('click', () => {
         modal.style.display = 'none';
     });
-    add.addEventListener('click', () => {
+    addButton.addEventListener('click', () => {
         modal.style.display = 'block';
     });
     window.addEventListener('click', (e) => {
